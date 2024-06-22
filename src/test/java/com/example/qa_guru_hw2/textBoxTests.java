@@ -1,0 +1,77 @@
+package com.example.qa_guru_hw2;
+
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Configuration;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+
+import java.io.File;
+
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selenide.*;
+
+public class textBoxTests {
+    @BeforeAll
+    static void setUp(){
+        Configuration.baseUrl="https://demoqa.com";
+        Configuration.holdBrowserOpen= true;
+        //Configuration.browserSize="1920x1808";
+    }
+    @Test
+    void fillFormTest() {
+        open("/automation-practice-form");
+        // closePopUps();
+        $("#firstName").setValue("Ruslana");
+        $("[id=lastName]").setValue("Sigalova");
+        $("[id=userEmail]").setValue("lanasigalova@gmail.com");
+        $("[id=userNumber]").setValue("6892337339");
+        $(By.xpath("//label[@for='gender-radio-2']")).click();
+        //driver.findElement(By.xpath("//div[@aria-label='Choose Thursday, November 26th, 1998']")).click();
+
+        //$(By.xpath("//label[@for='Choose Thursday, November 26th, 1998']")).click();//idk
+        $("#dateOfBirthInput").scrollIntoView(false);
+        $("#dateOfBirthInput").sendKeys(Keys.BACK_SPACE);
+
+        $("#dateOfBirthInput").sendKeys("26 Nov 1998");
+        $(".subjects-auto-complete__control.css-yk16xz-control input").setValue("Computer Science");
+        $(By.xpath("//label[@for='hobbies-checkbox-2']")).click();
+        File file = new File("com/example/qa_guru_hw2/shiba.jpg");
+        $("[id=uploadPicture]").uploadFile(file);
+        $("[id=currentAddress]").setValue("This addy");
+        $(By.xpath("//*[@class='css-1wa3eu0-placeholder']")).selectOption("NCR");
+        $(By.xpath("//*[@class=' css-1wa3eu0-placeholder']")).selectOption("Noida");
+        $("[id=submit]").click();
+
+
+        $(By.xpath("//*[@class='table-responsive']"))
+                .shouldHave(text("Ruslana Sigalova"))
+                .shouldHave(text(" lanasigalova@gmail.com"))
+                .shouldHave(text("Female"))
+                .shouldHave(text("6892337339"))
+                .shouldHave(text("26 November,1998"))
+                .shouldHave(text("Computer science"))
+                .shouldHave(text("Reading"))
+                .shouldHave(text("shiba.jpg"))
+                .shouldHave(text("Female"))
+                .shouldHave(text("This addy"))
+                .shouldHave(text("NCR Noida"));
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //private void closePopUps(){
+        //    $("path[d='M0,0l15,0l0,15l-15,0Z']").click();
+        // }
+    }
+}
