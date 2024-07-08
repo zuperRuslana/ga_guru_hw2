@@ -1,7 +1,8 @@
-package com.example.qa_guru_hw2;
+package com.example.qa_guru_hw2.tests;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.selector.ByText;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -10,6 +11,7 @@ import org.openqa.selenium.Keys;
 import java.io.File;
 
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
 public class textBoxTests {
@@ -17,11 +19,16 @@ public class textBoxTests {
     static void setUp(){
         Configuration.baseUrl="https://demoqa.com";
         Configuration.holdBrowserOpen= true;
-        //Configuration.browserSize="1920x1808";
+        Configuration.browserSize="1920x1808";
     }
     @Test
     void fillFormTest() {
         open("/automation-practice-form");
+
+        //$("practice-form-wrapper").shouldHave(text("Student Registration Form"));
+        //executeJavaScript("$('.ns-2xion-l-bannerA.ns-2xion-v-4').remove()");
+        //executeJavaScript("$('#bannerA').remove()");
+
         // closePopUps();
         $("#firstName").setValue("Ruslana");
         $("[id=lastName]").setValue("Sigalova");
@@ -31,17 +38,27 @@ public class textBoxTests {
         //driver.findElement(By.xpath("//div[@aria-label='Choose Thursday, November 26th, 1998']")).click();
 
         //$(By.xpath("//label[@for='Choose Thursday, November 26th, 1998']")).click();//idk
-        $("#dateOfBirthInput").scrollIntoView(false);
-        $("#dateOfBirthInput").sendKeys(Keys.BACK_SPACE);
+        //$("#dateOfBirthInput").scrollIntoView(false);
+        //$("#dateOfBirthInput").sendKeys(Keys.BACK_SPACE);
+        $("#dateOfBirthInput").click();
+       $( ".react-datepicker__month-select").selectOption("November");
+        $( ".react-datepicker__year-select").selectOption("1998");
+        $( ".react-datepicker__day--026").click();
 
-        $("#dateOfBirthInput").sendKeys("26 Nov 1998");
-        $(".subjects-auto-complete__control.css-yk16xz-control input").setValue("Computer Science");
+        //$("#dateOfBirthInput").sendKeys("26 Nov 1998");
+        //$(".subjects-auto-complete__control.css-yk16xz-control input").setValue("Computer Science");
+        $("#subjectsInput").sendKeys("Computer Science");
+        $("#subjectsInput").pressEnter();
+
         $(By.xpath("//label[@for='hobbies-checkbox-2']")).click();
-        File file = new File("com/example/qa_guru_hw2/shiba.jpg");
-        $("[id=uploadPicture]").uploadFile(file);
+        //File file = new File("com/example/qa_guru_hw2/shiba.jpg");
+        $("#uploadPicture").uploadFromClasspath("img/1.png");
         $("[id=currentAddress]").setValue("This addy");
-        $(By.xpath("//*[@class='css-1wa3eu0-placeholder']")).selectOption("NCR");
-        $(By.xpath("//*[@class=' css-1wa3eu0-placeholder']")).selectOption("Noida");
+        $("#state").click();
+        $("#stateCity-wrapper").$(byText("NCR")).click();
+        $("#city").click();
+        $("#stateCity-wrapper").$(byText("Noida")).click();
+
         $("[id=submit]").click();
 
 
