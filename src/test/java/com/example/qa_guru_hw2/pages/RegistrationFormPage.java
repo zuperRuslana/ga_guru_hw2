@@ -14,10 +14,16 @@ public class RegistrationFormPage {
     //Elements
     private CalendarComponents calendarComponents = new CalendarComponents();
     private ResultTable resultTable = new ResultTable();
-    private SelenideElement firstNameInput = $("#firstName"),
+    private SelenideElement
+            firstNameInput = $("#firstName"),
             lastNameInput = $("#lastName"),
             emailInput = $("#userEmail"),
-            genderRadio = $("genterWrapper");
+            genderRadio = $("genterWrapper"),
+            userNumber=$("#userNumber"),
+            dateOfBirthInput=$("#dateOfBirthInput"),
+            currentAddres= $("#currentAddress"),
+            subjectsInput=$("subjectsInput");
+
     private final static String titleText = "Thanks for submitting the form";
 
     //Actions
@@ -33,66 +39,55 @@ public class RegistrationFormPage {
     }
 
     public RegistrationFormPage setFirstName(String value) {
-        $("#firstName").setValue(value);
+       firstNameInput.setValue(value);
         return this;
     }
 
     public void clearFirstName() {
-        $("#firstName").clear();
+        firstNameInput.clear();
 
     }
 
     public void clearLN() {
-        $("#lastName").clear();
+        lastNameInput.clear();
     }
 
     public RegistrationFormPage setLastName(String value) {
-        $("#lastName").setValue(value);
+        lastNameInput.setValue(value);
         return this;
     }
 
     public RegistrationFormPage setEmail(String value) {
-        $("#userEmail").setValue(value);
+        emailInput.setValue(value);
         return this;
     }
 
     public RegistrationFormPage setGender(String value) {
-        $("#genterWrapper").$(byText(value)).click();
+       genderRadio.$(byText(value)).click();
         return this;
 
     }
 
     public RegistrationFormPage setNumber(String value) {
-        $("#userNumber").setValue(value);
+        userNumber.setValue(value);
         return this;
     }
 
     public RegistrationFormPage setBirthday(String day, String month, String year) {
         closeAdIfPresent();
-        $("#dateOfBirthInput").click();
+        dateOfBirthInput.click();
         calendarComponents.setDate(day, month, year);
         return this;
     }
-    private void closeAdIfPresent() {
-        // Switch to the iframe and close it if present
-        if ($(byCssSelector("iframe[id^='google_ads_iframe']")).exists()) {
-            switchTo().frame($(byCssSelector("iframe[id^='google_ads_iframe']")));
-            // Add the logic to close the ad if possible, for example:
-            if ($("button.close-ad").exists()) {
-                $("button.close-ad").click();
-            }
-            switchTo().defaultContent(); // Switch back to the main content
-        }
-    }
 
     public RegistrationFormPage setAddress(String value){
-        $("#currentAddress").setValue(value);
+        currentAddres.setValue(value);
         return this;
     }
 
     public RegistrationFormPage setSubject(String value){
-        $("#subjectsInput").sendKeys(value);
-        $("#subjectsInput").pressEnter();
+        subjectsInput.sendKeys(value);
+        subjectsInput.pressEnter();
         return this;
     }
     public RegistrationFormPage setHobby(String value){
@@ -122,6 +117,17 @@ public class RegistrationFormPage {
     public RegistrationFormPage checkResult(String key, String value) {
         resultTable.checkResult(key, value);
         return this;
+    }
+    private void closeAdIfPresent() {
+        // Switch to the iframe and close it if present
+        if ($(byCssSelector("iframe[id^='google_ads_iframe']")).exists()) {
+            switchTo().frame($(byCssSelector("iframe[id^='google_ads_iframe']")));
+            // Add the logic to close the ad if possible, for example:
+            if ($("button.close-ad").exists()) {
+                $("button.close-ad").click();
+            }
+            switchTo().defaultContent(); // Switch back to the main content
+        }
     }
 }
 
